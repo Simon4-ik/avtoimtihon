@@ -1,0 +1,284 @@
+📄 SPEC-1 – Method (Part 1: High-Level Architecture)
+🧠 Chosen Stack (Locked)
+Frontend: React (Next.js recommended)
+Backend: Python (FastAPI)
+Database: PostgreSQL
+AI Layer: Python services (future-ready)
+Hosting: Cloud (AWS / similar)
+🏗️ High-Level Architecture
+
+Here’s your MVP system:
+
+Components:
+Frontend (Web App)
+UI (tests, dashboard, payments)
+Communicates via API
+Backend API (FastAPI)
+Auth
+Test engine
+Payment logic
+User progress tracking
+Database (PostgreSQL)
+Users
+Questions
+Results
+Subscriptions
+AI Service (MVP = simple logic)
+Tracks weak topics
+Generates personalized quizzes
+📊 Architecture Diagram (simplified)
+@startuml
+actor User
+
+User -> Frontend : Use website
+Frontend -> Backend : API requests
+
+Backend -> DB : Read/Write data
+Backend -> AI Service : Analyze mistakes
+
+AI Service -> Backend : Weak topics
+
+Backend -> Frontend : Personalized quizzes
+@enduml
+🧠 Key Idea (VERY IMPORTANT)
+
+At MVP stage:
+
+👉 “AI” is NOT ChatGPT
+👉 It is rule-based intelligence + data tracking
+
+Example:
+
+User fails “road signs” 3 times
+→ System increases probability of those questions
+
+That’s already AI enough for V1
+
+🔑 Core Backend Modules
+1. Auth Module
+Register/Login
+Token-based auth (JWT)
+2. Question Engine
+Serve random questions
+Filter by topic
+Handle exam sessions
+3. Exam Engine
+Timer
+Score calculation
+Pass/fail logic
+4. Subscription Module
+Plans:
+2 weeks
+1 month
+1 year
+Access control middleware
+5. AI Personalization Engine (MVP)
+
+Tracks:
+
+Mistakes per topic
+Accuracy per topic
+
+Outputs:
+
+Weak topics
+Personalized quiz
+
+
+
+📄 SPEC-1 – Method (Part 2: Database Design)
+
+This is the core of your product — if done right, everything (AI, analytics, payments) becomes easy.
+
+🧱 Core Database Schema (PostgreSQL)
+1. Users
+users (
+  id UUID PRIMARY KEY,
+  email TEXT UNIQUE,
+  password_hash TEXT,
+  created_at TIMESTAMP
+)
+2. Subscriptions
+subscriptions (
+  id UUID PRIMARY KEY,
+  user_id UUID,
+  plan_type TEXT, -- '2week', '1month', '1year'
+  start_date TIMESTAMP,
+  end_date TIMESTAMP,
+  is_active BOOLEAN
+)
+3. Topics
+
+👉 VERY IMPORTANT for AI
+
+topics (
+  id SERIAL PRIMARY KEY,
+  name TEXT, -- e.g. "Road Signs"
+  description TEXT
+)
+4. Questions
+questions (
+  id SERIAL PRIMARY KEY,
+  topic_id INT,
+  question_text TEXT,
+  image_url TEXT NULL,
+  created_at TIMESTAMP
+)
+5. Answers
+answers (
+  id SERIAL PRIMARY KEY,
+  question_id INT,
+  answer_text TEXT,
+  is_correct BOOLEAN
+)
+6. Exam Sessions
+exam_sessions (
+  id UUID PRIMARY KEY,
+  user_id UUID,
+  started_at TIMESTAMP,
+  finished_at TIMESTAMP,
+  score INT,
+  passed BOOLEAN
+)
+7. User Answers (VERY IMPORTANT)
+user_answers (
+  id SERIAL PRIMARY KEY,
+  session_id UUID,
+  question_id INT,
+  selected_answer_id INT,
+  is_correct BOOLEAN
+)
+8. Topic Performance (AI core)
+topic_performance (
+  user_id UUID,
+  topic_id INT,
+  correct_count INT,
+  wrong_count INT,
+  last_updated TIMESTAMP,
+  PRIMARY KEY (user_id, topic_id)
+)
+🧠 AI Personalization Logic (MVP)
+
+This is your secret weapon (simple but powerful).
+
+Step 1: Track Mistakes
+
+Every time user answers:
+
+if correct:
+  correct_count += 1
+else:
+  wrong_count += 1
+Step 2: Calculate Weakness Score
+weakness_score = wrong_count / (correct_count + wrong_count)
+Step 3: Generate Personalized Quiz
+
+When user clicks “Practice”:
+
+1. Sort topics by weakness_score DESC
+2. Pick top 2–3 weakest topics
+3. Select questions mostly from those topics (70%)
+4. Add random questions (30%)
+Step 4: Adaptive Difficulty (simple version)
+If user gets 80%+ → increase randomness
+If <50% → focus heavily on weak topics
+💡 Why This Works
+
+Even without “real AI”:
+
+Feels personalized
+Improves learning speed
+Differentiates from ptest.uz
+💳 Payment System Design (Simple MVP)
+Flow:
+@startuml
+User -> Frontend : Select plan
+Frontend -> Backend : Create order
+Backend -> Payment Provider : Request payment
+Payment Provider -> Backend : Confirmation
+Backend -> DB : Activate subscription
+@enduml
+Recommendation (UZ Market)
+
+Use:
+
+Local providers (Payme / Click) OR
+Stripe (if targeting future expansion)
+
+
+📄 SPEC-1 – Implementation Plan (MVP Build)
+🛠️ Tech Stack (Final)
+Frontend: Next.js (React)
+Backend: FastAPI (Python)
+Database: PostgreSQL
+Auth: JWT
+Payments: Payme / Click (local) (Stripe later)
+🧩 Backend API Design
+🔐 Auth
+POST   /auth/register
+POST   /auth/login
+GET    /auth/me
+📚 Questions
+GET    /topics
+GET    /questions?topic_id=
+GET    /questions/random
+🧪 Exam
+POST   /exam/start
+POST   /exam/submit
+GET    /exam/result/{id}
+🧠 AI / Practice
+GET    /practice/personalized
+📊 Progress
+GET    /progress
+GET    /progress/topics
+💳 Subscription
+POST   /subscription/create
+POST   /payment/webhook
+GET    /subscription/status
+🖥️ Frontend Pages
+1. Landing Page
+Value proposition
+Pricing (2 weeks / 1 month / 1 year)
+2. Dashboard
+Progress %
+Weak topics
+Quick actions:
+Start exam
+Practice
+3. Exam Page
+Timer
+20 questions
+Submit
+4. Practice Page
+Personalized quiz
+Topic selection
+5. Results Page
+Score
+Mistakes
+Weak topics
+6. Admin Panel (IMPORTANT)
+Add/edit questions
+Assign topics
+Upload images
+🧠 AI Logic Implementation (Code-Level Idea)
+Weak Topic Query
+SELECT topic_id,
+       wrong_count::float / (correct_count + wrong_count) AS weakness
+FROM topic_performance
+WHERE user_id = ?
+ORDER BY weakness DESC
+LIMIT 3;
+Personalized Questions
+weak_topics = top 3 topics
+
+questions = 
+  70% FROM weak_topics
+  30% random
+
+return shuffled(questions)
+🔐 Access Control (Critical)
+
+Middleware:
+
+if subscription.expired:
+    block access

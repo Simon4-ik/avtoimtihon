@@ -1,0 +1,186 @@
+🎨 UI/UX DESIGN (MVP)
+🧠 Core UX Principles (FOLLOW STRICTLY)
+1 main action per screen
+No cognitive overload
+Always show progress
+Everything feels fast & mobile-first
+🖥️ 1. Landing Page (Conversion Focus)
+Goal: Turn visitors → paid users
+Layout:
+🔹 Hero Section
+
+Headline:
+
+“Pass your driving test in 7 days”
+
+Subtext:
+
+AI-powered preparation for Uzbekistan exams
+
+CTA button:
+“Start Practice”
+🔹 Social Proof
+“10,000+ tests taken”
+“85% pass rate”
+🔹 How It Works (3 steps)
+Take a test
+AI finds your weak areas
+Practice smarter
+🔹 Pricing Cards (VERY IMPORTANT)
+
+3 cards:
+
+2 weeks
+1 month ⭐ (highlighted)
+1 year
+
+👉 Keep it simple + clear
+
+🏠 2. Dashboard (Main Hub)
+Goal: Guide user → next action
+Layout:
+[ Progress Circle: 65% ready ]
+
+[ Weak Topics ]
+- Road Signs ❌
+- Priority Rules ⚠️
+
+[ Buttons ]
+▶ Start Exam
+🧠 Practice Weak Areas
+📚 Study by Topic
+Key UX Ideas:
+Show “You are 65% ready to pass”
+Always suggest next step
+🧪 3. Exam Page (Critical UX)
+Goal: Simulate real test
+Layout:
+[ Timer: 18:45 ]
+
+Question 5/20
+
+[ Question text ]
+[ Image if exists ]
+
+( ) Option A  
+( ) Option B  
+( ) Option C  
+( ) Option D  
+
+[ Next ]
+UX Rules:
+No distractions
+One question at a time
+Sticky timer
+Big tap targets (mobile!)
+📊 4. Results Page (MOST IMPORTANT SCREEN)
+Goal: Make user continue learning
+Layout:
+Score: 14/20 ❌
+
+You need 16 to pass
+
+[ Weak Topics ]
+- Road Signs (40%)
+- Priority Rules (50%)
+
+[ Buttons ]
+🧠 Practice Weak Areas (PRIMARY CTA)
+🔁 Retake Exam
+🔥 Key UX Trick:
+
+Instead of:
+
+“You failed”
+
+Say:
+
+“You’re close — focus on these topics”
+
+🧠 5. Practice Page (AI Magic)
+Goal: Feel personalized
+Layout:
+AI Recommendation:
+
+"Focus on Road Signs today"
+
+[ Start Practice ]
+
+---
+
+Or choose manually:
+
+[ Road Signs ]
+[ Priority ]
+[ Penalties ]
+UX Trick:
+
+Make AI feel smart:
+
+“Based on your last 3 tests…”
+
+📈 6. Progress Page
+Goal: Show improvement (addiction loop)
+Elements:
+Accuracy %
+Topics breakdown
+Test history
+Visual Idea:
+Progress bars per topic
+Green/red indicators
+⚙️ 7. Admin Panel (Simple but powerful)
+Pages:
+Add Question
+Edit Question
+Upload Image
+Assign Topic
+UX Rule:
+Fast input (you’ll use this a LOT)
+🎨 Design Style (IMPORTANT)
+Colors:
+Primary: Blue (trust)
+Success: Green
+Error: Red
+Background: Light gray / white
+Components:
+Rounded cards
+Soft shadows
+Large buttons
+Clean typography
+📱 Mobile-First Rules
+
+👉 80% users will be mobile
+
+So:
+
+Big buttons
+No small text
+Sticky bottom actions
+🔥 Key Differentiator UX (Your Secret Weapon)
+
+Add this:
+
+“Daily Plan”
+
+On dashboard:
+
+Today’s Goal:
+✔ 1 Practice
+✔ 1 Exam
+
+Reward: +10% readiness
+
+👉 This creates habit + retention
+
+❓ Final 2 UX Decisions
+Language at launch
+A) Uzbek only
+B) Uzbek + Russian
+
+👉 I recommend: A first (faster)
+
+Design style
+A) Minimal (Duolingo-like, clean)
+B) Feature-heavy (more info, more data)
+
+👉 I recommend: A (MUCH better conversion)
